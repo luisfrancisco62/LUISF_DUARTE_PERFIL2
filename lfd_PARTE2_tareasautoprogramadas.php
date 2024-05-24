@@ -37,7 +37,7 @@
     $sql = "
             CREATE EVENT backups_copiadeseguridad_tics
             ON SCHEDULE EVERY 1 DAY
-            STARTS '2024-05-22 04:53:00'
+            STARTS '2024-05-22 12:00:00'
             COMMENT 'LFD Evento Servidor para Tareas Automaticas Programadas TICS'
             DO
                 CALL backup_copiadeseguridad_tics();
