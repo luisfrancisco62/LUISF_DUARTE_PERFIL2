@@ -50,19 +50,106 @@ Parte 1: Conexión a Base de Datos MySQL y Manejo de Funciones Directas a Base d
    
 6.	Implementa una función que reciba el email de un usuario como parámetro y devuelva su nombre.
 
-         //
+         // ejecuta la funcion buscarPorEmail 
+              $email = 'luisfrancisco63@hotmail.com';
+              $nombre = buscarPorEmail($email, $conn);
+              if ($nombre !== null) {
+                  echo nl2br("El nombre de email $email es: $nombre\n\n");
+              } else {
+                  echo nl2br("No se encontro $email\n\n");
+              }
+
    
 8.	Implementa una función que reciba el nombre de un usuario como parámetro y actualice su contraseña en la base de datos.
 
-         //
+         //llamar funcion con parametros
+              $nombre = 'luis';
+              $nuevaContrasena = '0741';
+              actualizarContrasena($nombre, $nuevaContrasena, $conn);
 
 Parte 2: Ejecutables Directos desde Servidor para Tareas Automáticas Programadas.
 
-      //
+      //1.	Ejecute una tarea automática programada que se ejecute cada día a las 12:00 PM.
 
+              // Crear procedimiento 
+                $sql = " CREATE PROCEDURE backup_copiadeseguridad_tics() COMMENT 'LFD rutina para EJECUTABLES DIRECTOS DESDE SERVIDOR PARA TAREAS AUTO'
+                         SELECT * FROM usuarios INTO OUTFILE 'backup_table_usuarios_.csv'  FIELDS TERMINATED BY ','
+                       ";
+            
+                // Ejecutar procedimiento 
+                if ($conn_temp->multi_query($sql)) {
+
+     //2. La tarea automática debe realizar una copia de seguridad de la base de datos MySQL creada en la Parte 1 y almacenarla en una carpeta específica del servidor
+
+             // Crear evento 
+                $sql = "
+                        CREATE EVENT backups_copiadeseguridad_tics
+                        ON SCHEDULE EVERY 1 DAY
+                        STARTS '2024-05-22 12:00:00'
+                        COMMENT 'LFD Evento Servidor para Tareas Automaticas Programadas TICS'
+                        DO
+                            CALL backup_copiadeseguridad_tics();
+                      ";
+
+                // Ejecutar evento 
+                if ($conn_temp->multi_query($sql)) {
+      
 Parte 3: Desarrollo Web bajo Código PHP Nativo, HTML, CSS, JavaScript y WordPress.
 
-      //
+      1.	Una página de inicio (index.php) que contenga un formulario de registro de usuarios (nombre, email, contraseña) utilizando HTML, CSS y JavaScript para la validación del formulario.
+
+            <!-- //PARTE 3: CREAR FORMULARIO
+            
+            <form method="post" action="index_guardar.php" onsubmit="return validarFormulario()">
+
+                <h1>Formulario de Registro Usuarios TICS</h1> 
+
+                <label for="nombre">Nombre:</label><br>
+                <input type="text" id="nombre" name="nombre"><br>
+
+                <label for="email">Email:</label><br>
+                <input type="email" id="email" name="email"><br>
+
+                <label for="password">Contraseña:</label><br>
+                <input type="password" id="password" name="password"><br>
+
+                <button type="submit" name="submit">Registrarse</button>
+                <button type="button" onclick="redirigiralLogin()">Iniciar Sesión</button>
+                
+
+            </form>
+
+             <!-- //PARTE 3: USO DE JAVASCRIPT PARA EL VALIDADO -->
+              <script>
+                  function validarFormulario() {
+                      var nombre = document.getElementById('nombre').value;
+                      var email = document.getElementById('email').value;
+                      var password = document.getElementById('password').value;
+                      var mensajeError = document.getElementById('mensajeError');
+      
+                      if (nombre.trim() === '' || email.trim() === '' || password.trim() === '') {
+                          mensajeError.textContent = 'Por favor, complete todos los campos.';
+                          return false;
+                      }
+                      mensajeError.textContent = 'datos validados.';
+                      return true;
+                  }
+                  function redirigiralLogin() {
+                      window.location.href = 'login.php';
+                  }
+              </script>
+            
+      2.	Al enviar el formulario, los datos deben ser almacenados en la base de datos MySQL creada en la Parte 1.
+
+            
+      
+      3.	Implementa una página de inicio de sesión (login.php) que permita a los usuarios iniciar sesión utilizando su email y contraseña.
+
+            
+      
+      4.	Desarrolla una página (dashboard.php) que solo sea accesible para usuarios autenticados. Esta página debe mostrar un mensaje de bienvenida con el nombre del usuario y un enlace para cerrar sesión.
+
+            
 
 Parte 4: Conocimientos en Linux y Manejo Base de Datos MongoDB.
 
