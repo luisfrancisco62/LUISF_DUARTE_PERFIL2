@@ -204,10 +204,175 @@ Parte 3: Desarrollo Web bajo Código PHP Nativo, HTML, CSS, JavaScript y WordPre
                    
             </body>
 
-Parte 4: Conocimientos en Linux y Manejo Base de Datos MongoDB.
 
-      //
+//PARTE 4: CONOCIMIENTOS EN LINUX Y MANEJO BASE DE DATOS MONGODB
+
+	// Conectarse a la base de datos MongoDB
+      	use db_programadorestic;
+      
+      	// Crear una colección llamada productos
+      	db.createCollection("productos");
+      
+      	// Insertar al menos tres documentos en la colección productos
+      	db.productos.insertMany([
+      		{
+      			"id": 1,
+      			"nombre": "Lic.Windows11",
+      			"precio": 20.00,
+      			"cantidad": 15
+      	},
+      		{
+      			"id": 2,
+      			"nombre": "Lic.Office365",
+      			"precio": 50.00,
+      			"cantidad": 50
+      	},
+      		{
+      			"id": 3,
+      			"nombre": "Lic.Kaspersky",
+      			"precio": 20.00,
+      			"cantidad": 22
+      	}
+      	]);
+
+// FUNCIÓN PARA OBTENER EL PRECIO DE UN PRODUCTO POR SU NOMBRE
+
+	function getPriceByName(name) {
+		return db.productos.findOne({"nombre": name})["precio"];
 
 Parte 5: Framework en Ionic.
 
-      //
+// pasos de instalacion de entorno de desarrollo IONIC
+
+      >> luisf@192.168.1.21 2:02:01,92 ├─ C:\Users\luisf  ─┤
+
+      Instalar node: node --version
+      
+      Desde cmd:  ┼──┤▶ #: node --version
+      
+      Instalar ionic Cli con npm: ┼──┤▶ #: npm install -g @ionic/cli
+      
+      Desde powershell en visualcode: cd "c:\USBWebserver v8.6\root\proyecto\ionic"
+      Desde powershell: get-executionpolicy Unrestricted
+      
+      Crear aplicación: ionic start ProductosTics tabs
+      
+      Compilar: Ionic build
+      
+      Crear servidor: ionic serve -o
+      
+      Ejecutar Url Local: http://localhost:8100
+      
+      Crear nueva pagina: ionic g page first
+
+
+1.	Muestre una lista de los productos almacenados en la base de datos MongoDB creada en la Parte 4.
+
+// SE CREO archivo dentro de la estructura de la aplicacion ProductosTICS el archivo 
+
+    // Conectar a la base de datos MongoDB server.js
+      mongoose.connect('mongodb://localhost:27017/db_programadorestic', { useNewUrlParser: true, useUnifiedTopology: true });
+
+
+     //\src\app\first\productos.page.html
+         <ion-header>
+          <ion-toolbar>
+            <ion-title>Productos</ion-title>
+          </ion-toolbar>
+        </ion-header>
+        
+        <ion-content>
+          <ion-list>
+            <ion-item *ngFor="let producto of productos">
+              <ion-label>
+                <h2>{{ producto.nombre }}</h2>
+                <p>Precio: {{ producto.precio }} USD</p>
+                <p>Cantidad: {{ producto.cantidad }}</p>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-content>
+  
+         
+3.	Permita agregar nuevos productos a la base de datos.
+
+      //archivo agregar-producto.page.html
+  	
+        	<ion-header>
+              <ion-toolbar>
+                <ion-title>Agregar Producto</ion-title>
+              </ion-toolbar>
+            </ion-header>
+            
+            <ion-content>
+              <ion-item>
+                <ion-label position="floating">ID</ion-label>
+                <ion-input [(ngModel)]="producto.id" type="number"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Nombre</ion-label>
+                <ion-input [(ngModel)]="producto.nombre"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Precio</ion-label>
+                <ion-input [(ngModel)]="producto.precio" type="number"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Cantidad</ion-label>
+                <ion-input [(ngModel)]="producto.cantidad" type="number"></ion-input>
+              </ion-item>
+              <ion-button expand="full" (click)="agregarProducto()">Agregar Producto</ion-button>
+            </ion-content>
+  	
+  	//productos_page.html  //se implementa el boton agregar productos
+  	
+         <ion-header>
+              <ion-toolbar>
+                <ion-title>Productos</ion-title>
+                <ion-buttons slot="end">
+                  <ion-button routerLink="/agregar-producto">Agregar Producto</ion-button>
+                </ion-buttons>
+              </ion-toolbar>
+            </ion-header>
+            
+            <ion-content>
+              <ion-list>
+                <ion-item *ngFor="let producto of productos">
+                  <ion-label>
+                    <h2>{{ producto.nombre }}</h2>
+                    <p>Precio: {{ producto.precio }} USD</p>
+                    <p>Cantidad: {{ producto.cantidad }}</p>
+                  </ion-label>
+                </ion-item>
+              </ion-list>
+            </ion-content>
+
+      //ejecuta con:
+  	
+  	        ionic serve
+
+  	
+               
+3.	Implementa la funcionalidad de eliminar productos de la lista.
+
+
+         // se adiciona el boton eliminar
+            
+            <ion-content>
+              <ion-list>
+                <ion-item *ngFor="let producto of productos">
+                  <ion-label>
+                    <h2>{{ producto.nombre }}</h2>
+                    <p>Precio: {{ producto.precio }} USD</p>
+                    <p>Cantidad: {{ producto.cantidad }}</p>
+                  </ion-label>
+                  <ion-button slot="end" color="danger" (click)="eliminarProducto(producto.id)">
+                    Eliminar
+                  </ion-button>
+                </ion-item>
+              </ion-list>
+            </ion-content>
+
+
+         
+
